@@ -2,10 +2,14 @@
 # FloatByte type, traits, code identity, format lattice, decode atlas.
 
 abstract type Signedness end
+"""`SignedFormat`: signedness marker Σ = Signed in `FloatByte{K,P,S,D}` (sign bit present; `−Inf` representable in extended domains)."""
 struct SignedFormat   <: Signedness end
+"""`UnsignedFormat`: signedness marker Σ = Unsigned (no sign bit; no negative values)."""
 struct UnsignedFormat <: Signedness end
 abstract type DomainKind end
+"""`FiniteDomain`: domain marker Δ = Finite — no infinities in the datum set."""
 struct FiniteDomain   <: DomainKind end
+"""`ExtendedDomain`: domain marker Δ = Extended — `+Inf` (and `−Inf` when signed) are code points."""
 struct ExtendedDomain <: DomainKind end
 
 """
@@ -85,7 +89,18 @@ function fromcode(::Type{T}, code::Integer) where {T<:FloatByte}
     return reinterpret(T, UInt8(code))
 end
 
+"""
+    codepoint(x::FloatByte) -> UInt8
+
+The raw code point of `x` (the canonical byte; bits above `K` are zero).
+"""
 codepoint(x::FloatByte) = reinterpret(UInt8, x)
+
+"""
+    isvalidcode(T, code::Integer) -> Bool
+
+Whether `code` is in `0:2^K - 1` for format `T`.
+"""
 isvalidcode(::Type{T}, code::Integer) where {T<:FloatByte} =
     0 <= code < (1 << kbits(T))
 

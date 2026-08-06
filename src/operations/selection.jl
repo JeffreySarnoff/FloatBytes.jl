@@ -143,10 +143,15 @@ end
 
 # --- comparisons (§4.12) ---------------------------------------------------
 
+"""`compare_less(x, y)`: draft `CompareLess` — `false` whenever either operand is NaN; operands may differ in format."""
 compare_less(x::FloatByte, y::FloatByte)          = decode(x) < decode(y)
+"""`compare_less_equal(x, y)`: draft `CompareLessEqual` — `false` on NaN operands."""
 compare_less_equal(x::FloatByte, y::FloatByte)    = decode(x) <= decode(y)
+"""`compare_equal(x, y)`: draft `CompareEqual` — NaN compares unequal to everything, including itself."""
 compare_equal(x::FloatByte, y::FloatByte)         = decode(x) == decode(y)
+"""`compare_greater_equal(x, y)`: draft `CompareGreaterEqual` — `false` on NaN operands."""
 compare_greater_equal(x::FloatByte, y::FloatByte) = decode(x) >= decode(y)
+"""`compare_greater(x, y)`: draft `CompareGreater` — `false` on NaN operands."""
 compare_greater(x::FloatByte, y::FloatByte)       = decode(x) > decode(y)
 
 """
@@ -163,6 +168,15 @@ end
 
 # --- predicates and classification (§4.13) ---------------------------------
 
+"""
+    FloatByteClass
+
+Enumeration returned by [`floatclass`](@ref) (draft §4.13.1, Table 2):
+`ClsNaN`, `ClsNegativeInfinity`, `ClsNegativeNormal`,
+`ClsNegativeSubnormal`, `ClsZero`, `ClsPositiveSubnormal`,
+`ClsPositiveNormal`, `ClsPositiveInfinity`. Every code point falls into
+exactly one class.
+"""
 @enum FloatByteClass::UInt8 begin
     ClsNaN
     ClsNegativeInfinity
@@ -172,6 +186,11 @@ end
     ClsPositiveSubnormal
     ClsPositiveNormal
     ClsPositiveInfinity
+end
+
+for v in (:ClsNaN, :ClsNegativeInfinity, :ClsNegativeNormal, :ClsNegativeSubnormal,
+          :ClsZero, :ClsPositiveSubnormal, :ClsPositiveNormal, :ClsPositiveInfinity)
+    @eval @doc $("`" * string(v) * "`: [`FloatByteClass`](@ref) member (draft §4.13.1 Table 2).") $v
 end
 
 """
