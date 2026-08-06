@@ -23,8 +23,8 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - '1.10'
-          - '1.12'
+          - '1.12'   # package floor (Project.toml compat)
+          - '1'      # current stable
           - 'pre'
         os:
           - ubuntu-latest
