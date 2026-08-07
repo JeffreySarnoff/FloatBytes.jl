@@ -30,4 +30,5 @@ rformat(F) = DR.RFormat(FloatBytes.kbits(F), FloatBytes.pbits(F),
     include("stochastic_t5.jl")
     include("julia_interface_t8.jl")
     include("structural.jl")
+    include("test_quality.jl")
 end
