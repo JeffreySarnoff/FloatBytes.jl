@@ -1,3 +1,6 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 FloatBytes = "c81dfff7-5866-4afd-a54d-b23b55a74bbc"
+
+[compat]
+Documenter = "1.19.0"
